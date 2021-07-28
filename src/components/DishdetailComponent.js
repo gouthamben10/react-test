@@ -20,7 +20,7 @@ import {Link } from "react-router-dom";
     );
   }
 
-  function RenderComments({comments}) {
+  function RenderComments({comments, addComment, dishId }) {
     if (comments == null || comments.length === 0) {
       return (
         <div></div>
@@ -41,7 +41,7 @@ import {Link } from "react-router-dom";
         <h4>Comments</h4>
         <ul className="list-unstyled">
           { renderedComments }
-          <CommentForm/>
+          <CommentForm dishId={dishId} addComment={addComment}/>
         </ul>
       </div>
     );
@@ -67,7 +67,10 @@ import {Link } from "react-router-dom";
             <RenderDish dish ={props.dish} />
           </div>
           <div className="col-12 col-md-5 m-1">
-            <RenderComments comments={props.comments}/>
+            <RenderComments comments={props.comments}
+            addComment={props.addComment}
+            dishId={props.dish.id}
+            />
             
           </div>
           </div>
@@ -82,9 +85,10 @@ import {Link } from "react-router-dom";
       );
     }
   }
-  const required = (val) => val && val.length;
-  const maxLength = (len) => (val) => !(val) || (val.length <= len);
-  const minLength = (len) => (val) => val && (val.length >= len);
+
+const required = (val) => val && val.length;
+const maxLength = (len) => (val) => !(val) || (val.length <= len);
+const minLength = (len) => (val) => val && (val.length >= len);
 
 class CommentForm extends Component{
   constructor(props){
@@ -103,9 +107,8 @@ class CommentForm extends Component{
     });
   }
   handleSubmit(values)
-  {
-      console.log("Current State is:" +JSON.stringify(values));
-      alert("Current State is:" +JSON.stringify(values));
+  {   this.toggleModal();
+      this.props.addComment(this.props.dishId, values.rating, values.author, values.comment);
 
   }
   render(){
@@ -119,7 +122,7 @@ class CommentForm extends Component{
       <ModalBody>
       <LocalForm onSubmit={(values)=>this.handleSubmit(values)}>
         <Row className="form-group">
-                                <Label htmlFor="lastname" md={2}>Rating</Label>
+                                <Label htmlFor="rating" md={2}>Rating</Label>
                                 <Col md={12}>
                                 
                                       <Control.select model=".rating" id="rating" name="rating" className="form-control">
@@ -133,10 +136,10 @@ class CommentForm extends Component{
                                 </Col>
           </Row>
                 <Row className="form-group">
-                                <Label htmlFor="firstname" md={4} >First Name</Label>
+                                <Label htmlFor="author" md={4} >Your Name</Label>
                                 <Col md={12}>
-                                    <Control.text model=".firstname" id="firstname" name="firstname"
-                                        placeholder="First Name"
+                                    <Control.text model=".author" id="author" name="author"
+                                        placeholder="Your Name"
                                         className="form-control"
                                         validators={{
                                             required, minLength: minLength(3), maxLength: maxLength(15)
@@ -144,7 +147,7 @@ class CommentForm extends Component{
                                          />
                                     <Errors
                                         className="text-danger"
-                                        model=".firstname"
+                                        model=".author"
                                         show="touched"
                                         messages={{
                                             required: 'Required',
@@ -158,9 +161,9 @@ class CommentForm extends Component{
                             
                             
                     <Row className="form-group">
-                        <Label htmlfor="message" md={2}>Comment</Label>
+                        <Label htmlfor="comment" md={2}>Comment</Label>
                         <Col md={12}>
-                            <Control.textarea model=".message" id="message" name="message"
+                            <Control.textarea model=".comment" id="comment" name="comment"
                                 rows="6"
                                 className="form-control"
                                 />
