@@ -3,6 +3,8 @@ import { Breadcrumb,BreadcrumbItem, Card, CardImg, CardBody, CardText, CardTitle
 import { Control,LocalForm,Errors} from 'react-redux-form';
 import {Link } from "react-router-dom";
 import {Loading} from './LoadingComponent';
+import { baseUrl } from '../shared/baseUrl';
+
 
   function ConvertDateToCommentDateFormat({timestamp}) {
     const date = new Date(timestamp);
@@ -12,7 +14,7 @@ import {Loading} from './LoadingComponent';
   function RenderDish({dish}) {
     return (
       <Card>
-        <CardImg top src={dish.image} alt={dish.name} />
+       <CardImg top src={baseUrl + dish.image} alt={dish.name} />
         <CardBody>
           <CardTitle>{dish.name}</CardTitle>
           <CardText>{dish.description}</CardText>
