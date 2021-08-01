@@ -4,7 +4,7 @@ import { Control,LocalForm,Errors} from 'react-redux-form';
 import {Link } from "react-router-dom";
 import {Loading} from './LoadingComponent';
 import { baseUrl } from '../shared/baseUrl';
-
+import { FadeTransform, Fade, Stagger} from 'react-animation-components'
 
   function ConvertDateToCommentDateFormat({timestamp}) {
     const date = new Date(timestamp);
@@ -13,6 +13,10 @@ import { baseUrl } from '../shared/baseUrl';
 
   function RenderDish({dish}) {
     return (
+      <FadeTransform in
+                transformProps={{
+                    exitTransform: 'scale(0.5) translateY(-50%)'
+                }}>
       <Card>
        <CardImg top src={baseUrl + dish.image} alt={dish.name} />
         <CardBody>
@@ -20,6 +24,8 @@ import { baseUrl } from '../shared/baseUrl';
           <CardText>{dish.description}</CardText>
         </CardBody>
       </Card>
+      </FadeTransform>
+     
     );
   }
 
@@ -32,10 +38,12 @@ import { baseUrl } from '../shared/baseUrl';
 
     const renderedComments = comments.map((comment) => {
       return (
-        <li>
-          <p>{comment.Comment}</p>
-          <p>-- {comment.author}, <ConvertDateToCommentDateFormat timestamp={comment.date}/></p>
-        </li>
+        <Fade in>
+          <li>
+            <p>{comment.Comment}</p>
+            <p>-- {comment.author}, <ConvertDateToCommentDateFormat timestamp={comment.date}/></p>
+          </li>
+        </Fade>
       );
     });
 
@@ -43,7 +51,11 @@ import { baseUrl } from '../shared/baseUrl';
       <div>
         <h4>Comments</h4>
         <ul className="list-unstyled">
-          { renderedComments }
+          <Stagger in>
+            
+            { renderedComments }
+          
+          </Stagger>
           <CommentForm dishId={dishId} postComment={postComment}/>
         </ul>
       </div>
