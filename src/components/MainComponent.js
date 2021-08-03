@@ -11,7 +11,6 @@ import {Switch, Route, Redirect ,withRouter } from "react-router-dom";
 import {connect} from 'react-redux';
 import { postComment, fetchComments, fetchDishes,fetchPromos, fetchLeaders, postFeedback } from '../redux/ActionCreators';
 
-import { actions } from 'react-redux-form';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 const mapStateToProps = state =>{
@@ -35,10 +34,6 @@ const mapDispatchToProps = dispatch => ({
 
 class Main extends Component {
 
-  constructor(props) {
-    super(props);
- 
-  }
 
   componentDidMount() {
     this.props.fetchDishes();

@@ -1,6 +1,6 @@
-import { from } from "mute-stream";
+
 import React, { Component} from 'react';
-import { render } from "react-dom";
+
 import { Navbar, NavbarBrand, Nav, NavbarToggler, Collapse, NavItem, Jumbotron,
     Button, Modal, ModalHeader, ModalBody,
     Form, FormGroup, Input, Label } from 'reactstrap';
